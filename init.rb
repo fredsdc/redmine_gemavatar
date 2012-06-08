@@ -9,4 +9,5 @@ Redmine::Plugin.register :redmine_gemavatar do
   version '0.0.1'
   url ''
   author_url 'http://celebdor.com'
+  settings :default => {}, :partial => 'settings/gemavatar'
 end

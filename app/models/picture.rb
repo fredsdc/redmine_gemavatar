@@ -49,7 +49,8 @@ class Picture < ActiveRecord::Base
     end
 
     def old?
+        max_time = Setting.plugin_redmine_gemavatar['refresh_days'].to_i
         now = DateTime.now.to_date
-        (now - self.created).to_int > 7
+        (now - self.created).to_int > max_time
     end
 end

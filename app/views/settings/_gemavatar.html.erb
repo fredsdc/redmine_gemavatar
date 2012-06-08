@@ -1,0 +1,3 @@
+<p><%= label_tag 'settings[refresh_days]', 'Avatar images chache time expiration' %><%= text_field_tag 'settings[refresh_days]', @settings['refresh_days'], :size => 6 %> <%= l(:label_day_plural) %></p>
+
+<p><%= label_tag 'settings[allow_reload]', 'Allow users to reload their avatar' %><%= check_box_tag 'settings[allow_reload]', value = 'yes', @settings['allow_reload'] == 'yes' %></p>
