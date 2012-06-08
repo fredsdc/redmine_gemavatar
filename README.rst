@@ -31,8 +31,10 @@ Go to Administration -> Plugins and click ``Configure`` on the Gemavatar
 plugin.
 
 There you can set:
-* The maximum time the avatars are cached on disk.
-* Whether to allow users to refetch their own avatar from AD.
+
+- The maximum time the avatars are cached on disk.
+- Whether to allow users to refetch their own avatar from AD.
+
 
 Checking that it works
 ----------------------
