@@ -1,3 +1,0 @@
-= gemavatar
-
-Display avatars from LDAP.
