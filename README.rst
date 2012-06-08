@@ -24,6 +24,16 @@ Add the necessary stuff to the database.
 
 Restart the web server service.
 
+Configuration
+-------------
+
+Go to Administration -> Plugins and click ``Configure`` on the Gemavatar
+plugin.
+
+There you can set:
+* The maximum time the avatars are cached on disk.
+* Whether to allow users to refetch their own avatar from AD.
+
 Checking that it works
 ----------------------
 
