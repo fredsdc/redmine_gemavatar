@@ -1,0 +1,55 @@
+require 'net/ldap'
+
+class Picture < ActiveRecord::Base
+    unloadable
+
+    def self.get_by_user_id(uid)
+        Picture.find(:all, :conditions => {:user_id => uid}).first
+    end
+
+    def self.initialize_ldap_con(record)
+
+        ldap_user = record.account
+        ldap_password = record.account_password
+
+        options = { :host => record.host,
+            :port => record.port,
+            :encryption => (record.tls ? :simple_tls : nil)
+        }
+        options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
+        Net::LDAP.new options
+    end
+
+    def self.create_from_ldap(user_id, user_login)
+        ldap_rec = AuthSourceLdap.find(:all).first
+        picture_attr = 'jpegPhoto'
+        ldap_con = initialize_ldap_con(ldap_rec)
+
+        login_filter = Net::LDAP::Filter.eq( ldap_rec.attr_login, user_login )
+        object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
+        search_filter = object_filter & login_filter
+
+        picture_data = nil
+        ldap_con.search( :base => ldap_rec.base_dn,
+                         :filter => search_filter,
+                         :attributes=> [picture_attr]) do |entry|
+
+            picture_data = entry[picture_attr][0]
+        end
+
+        location = location_from_login(user_login)
+        File.open(location, 'wb') { |f| f.write(picture_data)}
+        Picture.create(:location => location, :user_id => user_id, :created => DateTime.now.to_date)
+    end
+
+    def self.location_from_login(login)
+        filename = File.dirname(__FILE__)
+        plugin_dir = File.absolute_path(File.dirname(File.dirname(filename)))
+        File.join(plugin_dir, 'assets', 'images', login+'.jpg')
+    end
+
+    def old?
+        now = DateTime.now.to_date
+        (now - self.created).to_int > 7
+    end
+end
