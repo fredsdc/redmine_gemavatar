@@ -30,6 +30,12 @@ class PicturesController < ApplicationController
         gemavatar_for(user)
     end
 
+    def delete
+        deleted = Picture.delete_all(:user_id => params[:user_id])
+        result = (deleted > 0) ? 'true' : 'false'
+        render :json => "{\"deleted\": #{result}}"
+    end
+
     def get_picture(user_id, user_login)
         picture = Picture.get_by_user_id(user_id)
         if picture.nil? or picture.old?
