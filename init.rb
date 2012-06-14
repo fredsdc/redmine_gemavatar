@@ -4,9 +4,9 @@ require 'application_helper_gemavatar_patch.rb'
 require 'hooks'
 
 Redmine::Plugin.register :redmine_gemavatar do
-  name 'Redmine Gemavatar plugin'
+  name 'Ldap avatar plugin'
   author 'Antoni Segura Puimedon'
-  description 'Fetches gemalto avatars from LDAP'
+  description 'Fetches avatars from LDAP'
   version '1.0.0'
   url ''
   author_url 'http://celebdor.com'

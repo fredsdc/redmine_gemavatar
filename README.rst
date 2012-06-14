@@ -6,8 +6,8 @@ About
 -----
 
 ``Gemavatar`` is a ``Redmine`` plugin for replacing the gravatars (they must 
-be enabled) with the jpeg pictures stored in the ldap that ``Redmine`` is 
-configured to work with.
+be enabled) with the jpeg pictures stored in the ldap auth_source that 
+``Redmine`` is configured to work with.
 
 Installation
 ------------
@@ -30,7 +30,7 @@ Configuration
 Go to Administration -> Plugins and click ``Configure`` on the Gemavatar
 plugin.
 
-There you can set:
+There you must set:
 
 - The maximum time the avatars are cached on disk.
 - Whether to allow users to refetch their own avatar from AD.
