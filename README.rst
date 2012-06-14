@@ -16,7 +16,7 @@ hg clone this repository while being inside the redmine /vendor/plugins
 directory(It must be done with the user that runs the web server service, so 
 it has the proper permissions):
 
-    hg clone https://apuimedo@vgerndvud465.gemalto.com/hg/ldap_gemalto_avatar gemavatar
+    hg clone <address> gemavatar
 
 Add the necessary stuff to the database.
 
