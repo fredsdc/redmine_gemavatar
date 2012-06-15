@@ -25,9 +25,5 @@ Redmine::Plugin.register :redmine_gemavatar do
   version '1.0.0'
   url ''
   author_url 'http://celebdor.com'
-  settings :default => {}, :partial => 'settings/gemavatar'
-
-  #Initialize settings.
-  Setting.plugin_redmine_gemavatar['refresh_days'] = '5' if Setting.plugin_redmine_gemavatar['refresh_days'].nil?
-  Setting.plugin_redmine_gemavatar['allow_reload'] = 'yes' if Setting.plugin_redmine_gemavatar['allow_reload'].nil?
+  settings :default => {'refresh_days' => '7'}, :partial => 'settings/gemavatar'
 end
