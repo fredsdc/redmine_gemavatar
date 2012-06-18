@@ -28,7 +28,9 @@ module GemAvatarPlugin
                 if Setting.gravatar_enabled?
                     options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
                     options[:size] = "64" unless options[:size]
-                    return "<img class=\"gravatar\" width=\"#{options[:size]}\" height=\"#{options[:size]}\" src=\"/gemavatar/show/#{user.id}\" />"
+                    base_url = Redmine::Utils.relative_url_root
+                    base_url = base_url + '/' if base_url[-1] != '/'
+                    return "<img class=\"gravatar\" width=\"#{options[:size]}\" height=\"#{options[:size]}\" src=\"#{base_url}gemavatar/show/#{user.id}\" />"
                 else
                     ''
                 end

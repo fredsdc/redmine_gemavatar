@@ -13,17 +13,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Gemavatar.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'redmine'
-require 'gravatar'
-require 'application_helper_gemavatar_patch.rb'
-require 'gemavatar_hooks'
-
-Redmine::Plugin.register :redmine_gemavatar do
-  name 'Ldap avatar plugin'
-  author 'Antoni Segura Puimedon'
-  description 'Fetches avatars from LDAP'
-  version '1.0.0'
-  url ''
-  author_url 'http://celebdor.com'
-  settings :default => {'refresh_days' => '7'}, :partial => 'settings/gemavatar'
+module GemAvatarPlugin
+    class GemAvatarHooks < Redmine::Hook::ViewListener
+        render_on :view_my_account, :partial => 'hooks/reload'
+    end
 end
