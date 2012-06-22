@@ -22,7 +22,7 @@ Redmine::Plugin.register :redmine_gemavatar do
   name 'Ldap avatar plugin'
   author 'Antoni Segura Puimedon'
   description 'Fetches avatars from LDAP'
-  version '1.0.1'
+  version '1.0.2'
   url ''
   author_url 'http://celebdor.com'
   settings :default => {'refresh_days' => '7'}, :partial => 'settings/gemavatar'
