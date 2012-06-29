@@ -63,13 +63,13 @@ class Picture < ActiveRecord::Base
 
     def self.location_from_login(login)
         filename = File.dirname(__FILE__)
-        plugin_dir = File.absolute_path(File.dirname(File.dirname(filename)))
+        plugin_dir = File.expand_path(File.dirname(File.dirname(filename)))
         File.join(plugin_dir, 'assets', 'images', login+'.jpg')
     end
 
     def self.spock_location()
         filename = File.dirname(__FILE__)
-        plugin_dir = File.absolute_path(File.dirname(File.dirname(filename)))
+        plugin_dir = File.expand_path(File.dirname(File.dirname(filename)))
         File.join(plugin_dir, 'assets', 'images', 'vulcan_avatar.jpg')
     end
 

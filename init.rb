@@ -17,6 +17,11 @@ require 'redmine'
 require 'gravatar'
 require 'application_helper_gemavatar_patch'
 require 'gemavatar_hooks'
+require 'dispatcher'
+
+Dispatcher.to_prepare do
+  ApplicationHelper.send(:include, GemAvatarPlugin::ApplicationAvatarPatch)
+end
 
 Redmine::Plugin.register :redmine_gemavatar do
   name 'Ldap avatar plugin'
