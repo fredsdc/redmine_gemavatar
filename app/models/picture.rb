@@ -52,8 +52,12 @@ class Picture < ActiveRecord::Base
             picture_data = entry[picture_attr][0]
         end
 
-        location = location_from_login(user_login)
-        File.open(location, 'wb') { |f| f.write(picture_data)}
+        if picture_data.nil?
+            location = spock_location()
+        else
+            location = location_from_login(user_login)
+            File.open(location, 'wb') { |f| f.write(picture_data)}
+        end
         Picture.create(:location => location, :user_id => user_id, :created => DateTime.now.to_date)
     end
 
@@ -61,6 +65,12 @@ class Picture < ActiveRecord::Base
         filename = File.dirname(__FILE__)
         plugin_dir = File.absolute_path(File.dirname(File.dirname(filename)))
         File.join(plugin_dir, 'assets', 'images', login+'.jpg')
+    end
+
+    def self.spock_location()
+        filename = File.dirname(__FILE__)
+        plugin_dir = File.absolute_path(File.dirname(File.dirname(filename)))
+        File.join(plugin_dir, 'assets', 'images', 'vulcan_avatar.jpg')
     end
 
     def old?
