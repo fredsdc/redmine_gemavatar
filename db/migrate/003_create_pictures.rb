@@ -25,12 +25,14 @@ class CreatePictures < ActiveRecord::Migration
         ADD CONSTRAINT fk_user_id
         FOREIGN KEY (user_id)
         REFERENCES users(id)
+        ON DELETE CASCADE
     SQL
   end
 
   def self.down
     drop_table :pictures
     execute <<-SQL
+        ALTER TABLE pictures
         DROP FOREIGN KEY fk_user_id
     SQL
   end
