@@ -19,7 +19,7 @@ class Picture < ActiveRecord::Base
     unloadable
 
     def self.get_by_user_id(uid)
-        Picture.find(:all, :conditions => {:user_id => uid}).first
+        Picture.where(:user_id => uid).first
     end
 
     def self.initialize_ldap_con(record)
@@ -36,7 +36,7 @@ class Picture < ActiveRecord::Base
     end
 
     def self.create_from_ldap(user_id, user_login)
-        ldap_rec = AuthSourceLdap.find(:all).first
+        ldap_rec = AuthSourceLdap.first
         picture_attr = 'jpegPhoto'
         ldap_con = initialize_ldap_con(ldap_rec)
 
@@ -70,7 +70,7 @@ class Picture < ActiveRecord::Base
     def self.spock_location()
         filename = File.dirname(__FILE__)
         plugin_dir = File.expand_path(File.dirname(File.dirname(filename)))
-        File.join(plugin_dir, 'assets', 'images', 'vulcan_avatar.jpg')
+        File.join(plugin_dir, 'assets', 'images', 'avatar.jpg')
     end
 
     def old?
