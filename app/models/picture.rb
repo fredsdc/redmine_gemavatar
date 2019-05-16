@@ -18,6 +18,8 @@ require 'net/ldap'
 class Picture < ActiveRecord::Base
     unloadable
 
+    belongs_to :user
+
     def self.get_by_user_id(uid)
         Picture.where(:user_id => uid).first
     end

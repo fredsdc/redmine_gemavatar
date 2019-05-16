@@ -16,6 +16,7 @@
 require 'redmine'
 require 'gravatar'
 require 'application_helper_gemavatar_patch'
+require 'gemavatar_user_patch'
 require 'gemavatar_hooks'
 
 Redmine::Plugin.register :redmine_gemavatar do
@@ -32,4 +33,5 @@ end
 
 RedmineApp::Application.config.after_initialize do
     ApplicationHelper.send(:include, GemAvatarPlugin::ApplicationAvatarPatch)
+    User.send(:include, GemAvatarPlugin::GemavatarUserPatch)
 end

@@ -1,5 +1,5 @@
 #    This file is part of Gemavatar.
-#
+# 
 #    Gemavatar is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -13,16 +13,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Gemavatar.  If not, see <http://www.gnu.org/licenses/>.
 
-class CreatePictures < ActiveRecord::Migration
-  def self.up
-    create_table :pictures do |t|
-      t.column :user_id, :integer, :null => false
-      t.column :location, :string, :null => false
-      t.column :created, :date, :null => false
-    end
-  end
+require_dependency 'user'
 
-  def self.down
-    drop_table :pictures
+module GemAvatarPlugin
+  module GemavatarUserPatch
+    def self.included(base) # :nodoc:
+      base.class_eval do
+        unloadable
+        has_one :picture, :dependent => :destroy
+      end
+    end
   end
 end
