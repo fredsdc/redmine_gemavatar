@@ -13,27 +13,33 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Gemavatar.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'application_helper'
-
 module GemAvatarPlugin
-    module ApplicationAvatarPatch
-        def self.included(base)
-            base.send(:include, InstanceMethods)
-            base.class_eval do
-                alias_method_chain :avatar, :gemavatar
-            end
-        end
-        module InstanceMethods
-            def avatar_with_gemavatar(user, options = { })
-                if Setting.gravatar_enabled? && user.is_a?(User)
-                    options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
-                    options[:size] = "64" unless options[:size]
-                    avatar_url = url_for :controller => :pictures, :action => :delete, :user_id => user
-                    return "<img class=\"gravatar\" width=\"#{options[:size]}\" height=\"#{options[:size]}\" src=\"#{avatar_url}\" />".html_safe
-                else
-                    ''
-                end
-            end
-        end
+  module ApplicationHelperGemavatarPatch
+
+    def self.included(base)
+      base.class_eval do
+        include InstanceMethods
+
+        alias_method :avatar_without_gemavatar, :avatar
+        alias_method :avatar, :avatar_with_gemavatar
+      end
     end
+
+    module InstanceMethods
+
+      def avatar_with_gemavatar (user, options = { })
+        if Setting.gravatar_enabled? && user.is_a?(User)
+          options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
+          # options[:size] = "64" unless options[:size]
+          options[:size] = "24" unless options[:size]
+          avatar_url = url_for :controller => :pictures, :action => :delete, :user_id => user
+          return "<img class=\"gravatar\" width=\"#{options[:size]}\" height=\"#{options[:size]}\" src=\"#{avatar_url}\" />".html_safe
+        else
+          avatar_without_gemavatar(user, options)
+        end
+      end
+
+    end
+
+  end
 end
