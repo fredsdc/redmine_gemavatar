@@ -36,20 +36,23 @@ class Picture < ActiveRecord::Base
     end
 
     def self.create_from_ldap(user_id, user_login)
-        ldap_rec = AuthSourceLdap.first
-        picture_attr = Setting.plugin_redmine_gemavatar['LDAP_photoprop']
-        ldap_con = initialize_ldap_con(ldap_rec)
-
-        login_filter = Net::LDAP::Filter.eq( ldap_rec.attr_login, user_login )
-        object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
-        search_filter = object_filter & login_filter
-
         picture_data = nil
-        ldap_con.search( :base => ldap_rec.base_dn,
-                         :filter => search_filter,
-                         :attributes=> [picture_attr]) do |entry|
 
-            picture_data = entry[picture_attr][0]
+        AuthSourceLdap.all.each do |ldap_rec|
+            picture_attr = Setting.plugin_redmine_gemavatar['LDAP_photoprop']
+            ldap_con = initialize_ldap_con(ldap_rec)
+
+            login_filter = Net::LDAP::Filter.eq( ldap_rec.attr_login, user_login )
+            object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
+            search_filter = object_filter & login_filter
+
+            ldap_con.search( :base => ldap_rec.base_dn,
+                             :filter => search_filter,
+                             :attributes=> [picture_attr]) do |entry|
+
+                picture_data = entry[picture_attr][0]
+            end
+            break unless picture_data.nil?
         end
 
         if picture_data.nil?
