@@ -16,6 +16,7 @@
 require 'redmine'
 require 'gravatar'
 require 'application_helper_gemavatar_patch'
+require 'class_patches'
 require 'gemavatar_hooks'
 
 Redmine::Plugin.register :redmine_gemavatar do

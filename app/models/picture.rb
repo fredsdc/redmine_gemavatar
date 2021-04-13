@@ -15,9 +15,12 @@
 
 require 'net/ldap'
 
+
 class Picture < ActiveRecord::Base
     unloadable
 
+    belongs_to :user
+    
     def self.get_by_user_id(uid)
         Picture.where(:user_id => uid).first
     end
@@ -72,6 +75,7 @@ class Picture < ActiveRecord::Base
             croppedimage = original.crop(0,0,width,width)
             croppedimage.write(location)
         end
+        Picture.where(user_id: user_id).delete_all
         Picture.create(:location => location, :user_id => user_id, :created => DateTime.now.to_date)
     end
 
