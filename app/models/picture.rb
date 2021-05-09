@@ -46,11 +46,11 @@ class Picture < ActiveRecord::Base
         Net::LDAP.new options
     end
 
-    def self.create_from_ldap(user_id, user_login, user_auth_source)
+    def self.create_from_ldap(user_id, user_login, user_auth_source_id)
         picture_data = nil
 
-        if user_auth_source.present? && AuthSourceLdap.pluck(:id).include?(user_auth_source)
-            ldap_rec=AuthSourceLdap.find(user_auth_source)
+        if user_auth_source_id.present? && AuthSourceLdap.pluck(:id).include?(user_auth_source_id)
+            ldap_rec=AuthSourceLdap.find(user_auth_source_id)
 
             picture_attr = Setting.plugin_redmine_gemavatar['LDAP_photoprop']
             ldap_con = initialize_ldap_con(ldap_rec)
