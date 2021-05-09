@@ -53,15 +53,15 @@ class PicturesController < ApplicationController
     private
 
     def gemavatar_for(user, options={})
-        picture = get_picture(user.id, user.login)
+        picture = get_picture(user.id, user.login, user.auth_source)
         send_file(picture.location, :filename => user.login, :type => 'image/jpeg', :disposition => 'inline')
         #gemavatar(user.login, options)
     end
 
-    def get_picture(user_id, user_login)
+    def get_picture(user_id, user_login, user_auth_source)
         picture = Picture.get_by_user_id(user_id)
         if picture.nil? or picture.old?
-            picture = Picture.create_from_ldap(user_id, user_login)
+            picture = Picture.create_from_ldap(user_id, user_login, user_auth_source)
         end
         picture
     end

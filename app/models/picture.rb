@@ -20,7 +20,7 @@ class Picture < ActiveRecord::Base
     unloadable
 
     belongs_to :user
-    
+
     def self.get_by_user_id(uid)
         Picture.where(:user_id => uid).first
     end
@@ -46,10 +46,12 @@ class Picture < ActiveRecord::Base
         Net::LDAP.new options
     end
 
-    def self.create_from_ldap(user_id, user_login)
+    def self.create_from_ldap(user_id, user_login, user_auth_source)
         picture_data = nil
 
-        AuthSourceLdap.all.each do |ldap_rec|
+        if user_auth_source.present? && AuthSourceLdap.pluck(:id).include?(user_auth_source)
+            ldap_rec=AuthSourceLdap.find(user_auth_source)
+
             picture_attr = Setting.plugin_redmine_gemavatar['LDAP_photoprop']
             ldap_con = initialize_ldap_con(ldap_rec)
 
@@ -63,7 +65,6 @@ class Picture < ActiveRecord::Base
 
                 picture_data = entry[picture_attr][0]
             end
-            break unless picture_data.nil?
         end
 
         if picture_data.nil?
