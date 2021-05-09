@@ -32,8 +32,16 @@ class Picture < ActiveRecord::Base
 
         options = { :host => record.host,
             :port => record.port,
-            :encryption => (record.tls ? :simple_tls : nil)
         }
+        if record.tls
+          options[:encryption] = {
+            :method => :simple_tls,
+            # Always provide non-empty tls_options, to make sure, that all
+            # OpenSSL::SSL::SSLContext::DEFAULT_PARAMS as well as the default cert
+            # store are used.
+            :tls_options => { :verify_mode => record.verify_peer ? OpenSSL::SSL::VERIFY_PEER : OpenSSL::SSL::VERIFY_NONE }
+          }
+        end
         options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
         Net::LDAP.new options
     end
