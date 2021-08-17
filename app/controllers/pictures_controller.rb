@@ -54,7 +54,7 @@ class PicturesController < ApplicationController
 
     def gemavatar_for(user, options={})
         picture = get_picture(user.id, user.login, user.auth_source_id)
-        send_file(picture.location, :filename => user.login, :type => 'image/jpeg', :disposition => 'inline')
+        send_file(picture.location, :filename => user.id, :type => 'image/jpeg', :disposition => 'inline')
         #gemavatar(user.login, options)
     end
 
