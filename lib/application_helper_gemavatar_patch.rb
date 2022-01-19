@@ -28,7 +28,7 @@ module GemAvatarPlugin
     module InstanceMethods
 
       def avatar_with_gemavatar (user, options = { })
-        if Setting.gravatar_enabled? && user.is_a?(User)
+        if Setting.gravatar_enabled? && user.is_a?(User) && user.auth_source_id.present?
           options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
           # options[:size] = "64" unless options[:size]
           options[:size] = "24" unless options[:size]
